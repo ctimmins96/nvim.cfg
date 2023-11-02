@@ -38,11 +38,11 @@ local s_count = {
 lline.setup {
     options = {
         theme = 'horizon',
-        component_separators = '|',
+        component_separators = '󰘧',
         section_separator = { left = '*', right = '*' },
         refresh = {
-            statusline = 1000,
-            tabline = 300,
+            statusline = 300,
+            tabline = 200,
             winbar = 1000,
         }
     },
@@ -53,8 +53,8 @@ lline.setup {
             f_name,
             s_count
         },
-        lualine_x = { 'encoding', 'filetype' },
-        lualine_y = { 'progress' },
+        lualine_x = { 'encoding' },
+        lualine_y = { 'filetype' },
         lualine_z = { 'location' },
     },
     inactive_sections = {

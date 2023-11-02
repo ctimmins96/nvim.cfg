@@ -10,18 +10,8 @@ return require('packer').startup(function(use)
 		requires = { { 'nvim-lua/plenary.nvim' },
                     { 'BurntSushi/ripgrep' } }
 	}
-
 	use ('nvim-treesitter/nvim-treesitter')
-	use ('nvim-treesitter/playground')
 	use ('ThePrimeagen/harpoon')
-	use ('vim-airline/vim-airline')
-	use ('haystackandroid/vimspectr')
---	config = function()
---		vim.g.vimspectrItalicComment = 'on'
---		vim.cmd('colorscheme vimspectr150-dark')
---	end
-
-
 	use ('ap/vim-css-color')
 	use {
 		'VonHeikemen/lsp-zero.nvim',
@@ -87,5 +77,15 @@ return require('packer').startup(function(use)
         "iamcco/markdown-preview.nvim",
         run = function() vim.fn["mkdp#util#install"]() end,
     })
+    use {
+        "startup-nvim/startup.nvim",
+        config = function()
+            require"startup".setup()
+        end
+    }
+    use "nvim-tree/nvim-tree.lua"
+
+    -- Testing Plugins (on my local machine)
+    use "/mnt/e/lua/fnr.nvim"
 end)
 

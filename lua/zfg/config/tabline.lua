@@ -4,7 +4,7 @@ require('tabline').setup({
     show_icon = true,
     fnamemodify = ':t',
     modify_indicator = '[󰣙]',
-    no_name = '???',
+    no_name = '󰠥',
     brackets = { '[', ']' },
     inactive_tab_max_length = 0
 })

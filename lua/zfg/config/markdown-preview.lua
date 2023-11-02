@@ -4,6 +4,6 @@ local cmd = require("zfg.binds").cmd
 
 -- Shortcuts
 
-nmap { '<leader>m', function() cmd(":MarkdownPreviewToggle") end }
+nmap { '<leader>m', function() cmd(":MarkdownPreviewToggle") end, "Preview Markdown" }
 
 

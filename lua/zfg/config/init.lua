@@ -8,6 +8,7 @@ require('zfg.config.treesitter')
 require('zfg.config.undotree')
 require('zfg.config.lualine')
 require('zfg.config.snip')
+require("zfg.config.nvim-tree")
 
 -- Sourcing lsp-zero
 -- Imports

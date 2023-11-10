@@ -26,10 +26,11 @@ return require('packer').startup(function(use)
             {'saadparwaiz1/cmp_luasnip'},
             {'hrsh7th/cmp-nvim-lua'},
 			{'L3MON4D3/LuaSnip'},
+            {'hrsh7th/cmp-cmdline'},
+            {'hrsh7th/nvim-cmp'},
 		}
 	}
 	use 'mbbill/undotree'
-    use 'alacritty/alacritty'
     use ({
         'L3MON4D3/LuaSnip',
         tag = 'v2.*',

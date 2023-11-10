@@ -45,6 +45,7 @@ function Bind.msg(mes)
     vim.api.nvim_echo({{mes}},true, {})
 end
 
+Bind.func = vim.fn
 Bind.a = vim.api
 Bind.g = vim.g
 Bind.opt = vim.opt

@@ -4,14 +4,15 @@ require("harpoon").setup({
     tabline = false,
 })
 
+local nmap = require("zfg.binds").nmap
 local mark = require("harpoon.mark")
 local ui = require("harpoon.ui")
 
-vim.keymap.set("n", "<leader>a", mark.add_file)
-vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
+nmap { "<leader>a", mark.add_file, "Harpoon-Add_File" }
+nmap { "<C-e>", ui.toggle_quick_menu, "Harpoon-Quick_Menu" }
 
 for i = 1,10 do
-    vim.keymap.set("n", "<leader>"..(i%10), function() ui.nav_file(i) end)
+    nmap { "<leader>"..(i%10), function() ui.nav_file(i) end, "Harpoon-Nav_File_"..(i%10) }
 end
 
 
@@ -35,4 +36,4 @@ local get_marks = function()
     print(contents)
 end
 
-vim.keymap.set("n", "<leader>hh", function() get_marks() end)
+nmap { "<leader>hh", function() get_marks() end }

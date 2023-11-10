@@ -5,6 +5,7 @@ local nmap = require("zfg.binds").nmap
 g.loaded_netrw = 1
 g.loaded_netrwPlugin = 1
 
+-- Functions
 local function my_on_attach(bufnr)
     local api = require("nvim-tree.api")
     local function opts(desc)
@@ -14,7 +15,7 @@ local function my_on_attach(bufnr)
     nmap { "t", api.tree.toggle, opts("Toggle") }
     nmap { "?", api.tree.toggle_help, opts("Help") }
     nmap { "u", api.tree.change_root_to_parent, opts("Up") }
-end
+end 
 
 require("nvim-tree").setup({
     sort_by = "case_sensitive",
@@ -31,6 +32,9 @@ require("nvim-tree").setup({
 })
 
 -- Global Keymaps
-nmap { "<leader>nt", require("nvim-tree.api").tree.toggle, "Toggle Nvim-Tree"}
+nmap { "<leader>nt", function()
+    require("nvim-tree.api").tree.reload()
+    require("nvim-tree.api").tree.toggle()
+end, "Toggle Nvim-Tree"}
 nmap { "<leader>nf", require("nvim-tree.api").tree.focus, "Focus Nvim-Tree" }
 

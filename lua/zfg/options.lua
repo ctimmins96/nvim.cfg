@@ -1,34 +1,39 @@
-vim.opt.guicursor = { "a:block" }
+-- Imports
+local opt = require("zfg.binds").opt
+local glb = require("zfg.binds").g
 
-vim.opt.nu = true
-vim.opt.rnu = true
+opt.guicursor = { "a:block" }
 
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
+opt.nu = true
+opt.rnu = true
 
-vim.opt.smartindent = true
+opt.tabstop = 4
+opt.softtabstop = 4
+opt.shiftwidth = 4
+opt.expandtab = true
 
-vim.opt.cursorline = true
+opt.smartindent = true
 
-vim.opt.wrap = false
+opt.cursorline = true
 
-vim.o.showtabline = 2
-vim.opt.sessionoptions = 'curdir,folds,globals,help,tabpages,terminal,winsize'
+opt.wrap = false
 
-vim.opt.swapfile = false
-vim.opt.backup = false
-vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
-vim.opt.undofile = true
+opt.showtabline = 2
+opt.sessionoptions = 'curdir,folds,globals,help,tabpages,terminal,winsize'
 
-vim.opt.hlsearch = true
-vim.opt.incsearch = true
-vim.opt.termguicolors = true
-vim.opt.scrolloff = 8
-vim.opt.signcolumn = "yes"
-vim.opt.isfname:append("@-@")
+opt.swapfile = false
+opt.backup = false
+opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+opt.undofile = true
 
-vim.opt.updatetime = 50
+opt.hlsearch = true
+opt.incsearch = true
+opt.termguicolors = true
+opt.scrolloff = 8
+opt.signcolumn = "yes"
+opt.isfname:append("@-@")
 
-vim.g.mapleader = " "
+opt.updatetime = 50
+
+glb.mapleader = " "
+

@@ -169,7 +169,6 @@ return {
 
             Argument(s):
         {}
-
             Return(s):
                 ret ({}) --
             """

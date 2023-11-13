@@ -1,5 +1,5 @@
 -- Import Snippets
-require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/LuaSnip/*"})
+require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/LuaSnip"})
 
 -- Configuration
 require("luasnip").config.set_config({

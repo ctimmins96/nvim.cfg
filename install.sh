@@ -90,6 +90,21 @@ if [[ $bob_inst ]]; then
     bob install latest
     bob use latest
 
-
-
 fi
+
+# Checking Zellij Install status
+
+echo "Checking Zellij installation status..."
+
+zellij --version
+zellij_ok=$?
+if [[ $zellij_ok -ne 0 ]]; then
+    echo "Install Zellij"
+    cargo install --lock zellij
+
+    # Check installation
+    if [[ $? -eq 0 ]]; then
+        echo "Zellij Installation Successful!"
+    fi
+fi
+

@@ -81,14 +81,15 @@ return require('packer').startup(function(use)
     use {
         "startup-nvim/startup.nvim",
         requires = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
-        config = function() 
+        config = function()
             --require("startup").setup(require"config.startup_nvim")
             require("startup").setup({theme="evil"})
         end,
     }
     use "nvim-tree/nvim-tree.lua"
+    use "lewis6991/gitsigns.nvim"
 
     -- Testing Plugins (on my local machine)
-    use "/mnt/e/lua/fnr.nvim"
+    -- use "/mnt/e/lua/fnr.nvim"
 end)
 

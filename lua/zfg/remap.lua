@@ -2,7 +2,6 @@
 local nmap =  require('zfg.binds').nmap
 local imap =  require('zfg.binds').imap
 local xmap =  require('zfg.binds').xmap
-local ismap = require('zfg.binds').ismap
 
 -- Leader Remap
 vim.g.mapleader = " "
@@ -34,9 +33,6 @@ nmap { "<leader>j", "<cmd>lprev<CR>zz" }
 nmap { "<leader>ec", ":e $MYVIMRC<CR>", "Remap-Edit_vimrc" }
 nmap { "<leader>ps", ":PackerSync<CR>", "Remap-Packer_Sync" }
 
--- LSP reload bandaid
-nmap { "<leader>lsp", ":so ~/.config/nvim/lua/zfg/ext/lsp-zero.lua<CR>:so ~/.config/nvim/lua/zfg/ext/cmp.lua<CR>", "Remap-LSP_Reload" }
-
 -- Interactive Mode Remaps
 imap { ";;", "<Esc>", "Remap-Normal_Mode" }
 imap { '<C-s>', '<Esc>:w<CR>i', 'Remap-Quick_Save' }
@@ -48,8 +44,8 @@ xmap { "K", ":m '<-2<CR>gv=gv" }
 xmap { "<leader>y", "\"+y" }
 
 -- Netrw Remaps
-
-vim.api.nvim_create_autocmd('filetype', {
+local ap = require("zfg.binds").a
+ap.nvim_create_autocmd('filetype', {
     pattern = 'netrw',
     desc = 'Better Mappings for Netrw',
     callback = function()
@@ -62,3 +58,9 @@ vim.api.nvim_create_autocmd('filetype', {
         bind('dn', 'd', "New_Directory")
     end
 })
+
+-- Testing Area
+local f = require("zfg.binds").func
+nmap { "<leader>rs", function() f.setreg("/", "<leader>") end }
+nmap { "<leader>rg", function() print(f.getreg("/")) end }
+

@@ -118,32 +118,71 @@ local function pyfunc_temp(args, _, old_state)
     return snip
 end
 
--- Snippets
--- - All
-ls.add_snippets({
-    "all", {
-        s({
-            trig="ternary",
-            dscr="Universal-ish Ternary Operator",
-            regTrig=false,
-            priority=100,
-            snippetType="snippet"
-        }, {
-            i(1, "cond"),
-            t(" ? "),
-            i(2, "then"),
-            t(" : "),
-            i(3, "else")
-        })
-    }
-}, {
-    key = "all"
-})
+local function hs_arg_check(arg_str)
+    if arg_str == '' then return { "x", "Placeholder" }
+    elseif string.find(arg_str, ":") then
+        local arg_name = vim.split(arg_str, ":", true)[1]
+        local arg_type = vim.split(arg_str, ":", true)[2]
 
+        if arg_type == '' then arg_type = "Placeholder" end
+        return { arg_name, arg_type }
+    else
+        return { arg_str, "Placeholder" }
+    end
+end
+
+local function hs_func(args, _, user_args)
+    local arg_def = {}
+    local arg_str = ''
+    local mono_arg = not string.find(args[1][1], ',')
+
+    print(vim.inspect(args))
+
+    if string.find(args[1][1], ",") then
+        for _, val in ipairs(vim.split(args[1][1], ',', true)) do
+            local var_name = hs_arg_check(val)[1]
+            if string.sub(var_name, 1, 1) == "(" then
+                var_name = string.sub(var_name, 2)
+            end
+            local var_type = hs_arg_check(val)[2]
+            if string.sub(var_type, -1) == ")" then
+                var_type = string.sub(var_type, 1, -2)
+            end
+            table.insert(arg_def, { varName = var_name, varType = var_type })
+        end
+    else
+        arg_def = { { varName=hs_arg_check(args[1][1])[1], varType=hs_arg_check(args[1][1])[2] } }
+    end
+
+    if user_args.declaration then
+        for _, val in ipairs(arg_def) do
+            if arg_str == '' then
+                arg_str = val.varType
+            else
+                arg_str = arg_str .. ", " .. val.varType
+            end
+        end
+    else
+        for _, val in ipairs(arg_def) do
+            if arg_str == '' then
+                arg_str = val.varName
+            else
+                arg_str = arg_str .. ", " .. val.varName
+            end
+        end
+    end
+
+    if not mono_arg then
+        arg_str = '(' .. arg_str .. ')'
+    end
+
+    return arg_str
+end
+
+-- Snippets
 -- - Lua
-ls.add_snippets(
-    "lua", {
-        s({
+local lua = {
+    s({
             trig="luatmp",
             dscr="Lua File Template",
             regTrig=false,
@@ -196,19 +235,20 @@ ls.add_snippets(
             i(2, "RoughDescriptor"),
             i(0)
         }))
-}, {
-    key = "lua"
+}
+ls.add_snippets("lua", lua,
+{
+    key = "lua",
 })
 
 -- - Python
-ls.add_snippets(
-    "python", {
-        s({
+local python = {
+s({
             trig="pytemp",
             dscr="Python File Template",
             regTrig=false,
             priority=100,
-            snippetType="autosnippet"
+            snippetType="snippet"
         },
         fmt(
         [[
@@ -251,7 +291,7 @@ ls.add_snippets(
             dscr="Python Class Template",
             regTrig=false,
             priority=100,
-            snippetType='autosnippet'
+            snippetType='snippet'
         },
         fmt(
         [[
@@ -277,7 +317,7 @@ ls.add_snippets(
             dscr="Python Function Template",
             regTrig=false,
             priority=100,
-            snippetType='autosnippet'
+            snippetType='snippet'
         },
         fmt2(
         [[
@@ -303,11 +343,156 @@ ls.add_snippets(
             i(0),
         })
     ),
-}, {
-    key = "python"
+}
+
+ls.add_snippets("python", python,
+{
+    key = "python",
 })
 
+-- - Haskell
+local haskell = {
+    s({
+        trig='fb',
+        dscr='Foobar',
+        regtrig=false
+    }, {
+        t("Foobar")
+    }),
+    s({
+        trig='hstemp',
+        dscr='Haskell File Template',
+        regTrig=false,
+        priority=100,
+        snippetType='snippet'
+    }, fmt2(
+    [[
+    -- {}
+    --
+    -- Author(s):
+    --     * Chase Timmins <chase.timmins@gmail.com>
+    -- 
+    -- Description:
+    --     {}
+    module Main
+    where
+
+    -- Imports
+
+    -- Main
+    main = do
+        putStrLn "Hello World!"{}
+    ]], {
+        i(1, "ScriptName"),
+        i(2, "I'm doing jank stuff."),
+        i(0)
+    }
+    )),
+    s({
+        trig='hsmod',
+        dscr='Haskell Module Template',
+        regTrig=false,
+        priority=100,
+        snippetType='snippet'
+    }, fmt2(
+    [[
+    -- {}
+    --
+    -- Author(s):
+    --     * Chase Timmins <chase.timmins@gmail.com>
+    -- 
+    -- Description:
+    --     {}
+    -- 
+    -- Functions:
+    --     * foo
+    --     * bar
+    module {} (
+        foo,
+        bar
+    ) where
+    
+    -- foo (Int) -> (Int)
+    foo :: Int -> Int
+    foo x = x * 2
+
+    -- bar (Int) -> (Int)
+    bar :: Int -> Int
+    bar x = x - 3
+    ]], {
+        i(1, "MyMod"),
+        i(2, "Brief Description"),
+        rep(1)
+    }
+    )),
+    s({
+        trig='hsfunc',
+        dscr='Haskell Base Function Template',
+        regTrig=false,
+        priority=100,
+        snippetType='snippet'
+    }, fmt2(
+    [[
+    -- Function: {}
+    --
+    -- Arguments: {}
+    -- Returns:   {}
+    {} :: {} -> {}
+    {} {} = {}
+    ]], {
+        i(1, "func_name"),
+        i(2, "x:Int"),
+        i(3, "Int"),
+        rep(1),
+        f(hs_func, {2}, { user_args = {{declaration = true }}}),
+        rep(3),
+        rep(1),
+        f(hs_func, {2}, { user_args = {{ declaration = false }}}),
+        i(0)
+    }
+    ))
+}
+
+ls.add_snippets("haskell", haskell, {
+    key='haskell',
+})
+
+-- - Markdown
+local markdown = {
+    s({
+        trig='link',
+        dscr="Markdown Link Snippet",
+        regTrig=false,
+        priority=100,
+        snippetType='snippet'
+    }, {
+        t("["),
+        i(1, "Text"),
+        t("]("),
+        i(2,"google.com"),
+        t(")")
+    })
+}
+
+ls.add_snippets("markdown", markdown,
+{
+    key='markdown'
+})
+
+-- - Rust
+local rust = {
+    s({
+        trig='fb',
+        dscr='Foobar'
+    }, {
+        t("Foobar")
+    })
+}
+
+ls.add_snippets("rust", rust,
+{
+    key='rust'
+})
 
 -- Snippet Testing Ground (lua)
-
 

@@ -179,6 +179,45 @@ local function hs_func(args, _, user_args)
     return arg_str
 end
 
+local function parse_type(type_str)
+    if string.sub(type_str, 1, 1) == "&" then
+        return "Ref " .. parse_type(string.sub(type_str, 2))
+    elseif string.sub(type_str, 1, 1) == "[" and string.sub(type_str, -1, -1) == "]" then
+        return parse_type(string.sub(type_str,2, -2)) .. " array"
+    else
+        return type_str
+    end
+end
+
+local function rust_arg_check(arg_str)
+    if arg_str == '' then return { "placeholder (Placeholder)" }
+    elseif string.find(arg_str, ", ") then
+        local ret = {}
+        for _, val in ipairs(vim.split(arg_str, ", ", true)) do
+            table.insert(ret, rust_arg_check(val)[1])
+        end
+        return ret
+    else
+        if string.find(arg_str, ": ") then
+            local var = vim.split(arg_str, ": ", true)[1]
+            local type = vim.split(arg_str, ": ", true)[2]
+            local type_str = parse_type(type)
+            return { var .. " (" .. type_str .. ")" }
+        else
+            return { arg_str.." (Placeholder)" }
+        end
+    end
+end
+
+local function rust_func(args, _, user_args)
+    local params = rust_arg_check(args[1][1])
+    local ret = {}
+    for _, val in ipairs(params) do
+        table.insert(ret, "//     - " .. val .. " -- Info goes here.")
+    end
+    return ret
+end
+
 -- Snippets
 -- - Lua
 local lua = {
@@ -486,6 +525,50 @@ local rust = {
         dscr='Foobar'
     }, {
         t("Foobar")
+    }),
+    s({
+        trig='rstemp',
+        dscr='Rust File Template',
+        regTrig=false,
+        priority=100,
+        snippetType='snippet'
+    }, fmt(
+    [[
+    // <>
+    //
+    // Author(s):
+    //     * Chase Timmins `chase.timmins@gmail.com`
+
+    // Structs
+
+    // Main
+    fn main() {
+        // Do Stuff<>
+    }
+    ]], {
+        i(1, "File Name"),
+        i(0)
+    })),
+    s({
+        trig='rsfunc',
+        dscr='Rust Function Template',
+        regTrig=false,
+        priority=100,
+        snippetType='snippet'
+    }, {
+        t({ "// Function: " }),
+        rep(1),
+        t({ "", "//", "// Argument(s): ", '' }),
+        f(rust_func, {2}, {}),
+        t({ "", "//", "// Return(s):", "//     - ret (" }),
+        rep(3),
+        t({ ") -- Info goes here.", "fn " }),
+        i(1, "sum"),
+        t( "(" ),
+        i(2, "values: &[i32]"),
+        t(") -> "),
+        i(3, "i32"),
+        t({ " {", "    // Do a thing", "}" })
     })
 }
 

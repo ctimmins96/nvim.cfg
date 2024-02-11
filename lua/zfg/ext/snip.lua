@@ -189,8 +189,26 @@ local function parse_type(type_str)
     end
 end
 
+local function parse_var(var_str)
+    if string.sub(var_str, 1, 1) == "&" then
+        return "Referenced-"..parse_var(string.sub(var_str, 2))
+    elseif string.len(var_str) < 4 then
+        return var_str
+    elseif string.sub(var_str, 1, 4) == "mut " then
+        return "Mutable "..string.sub(var_str,5)
+    elseif string.sub(var_str, 1, 1) == "'" then
+        local s_idx
+        _, s_idx = string.find(var_str, " ")
+        local lifetime = vim.split(var_str, " ", true)[1]
+        local nvar = string.sub(var_str, s_idx + 1)
+        return parse_var(nvar) .. " [Lifetime=" .. string.sub(lifetime, 2) .. "]"
+    else
+        return var_str
+    end
+end
+
 local function rust_arg_check(arg_str)
-    if arg_str == '' then return { "placeholder (Placeholder)" }
+    if arg_str == '' then return { "None" }
     elseif string.find(arg_str, ", ") then
         local ret = {}
         for _, val in ipairs(vim.split(arg_str, ", ", true)) do
@@ -199,12 +217,15 @@ local function rust_arg_check(arg_str)
         return ret
     else
         if string.find(arg_str, ": ") then
-            local var = vim.split(arg_str, ": ", true)[1]
+            local raw_var = vim.split(arg_str, ": ", true)[1]
             local type = vim.split(arg_str, ": ", true)[2]
+            local var = parse_var(raw_var)
             local type_str = parse_type(type)
             return { var .. " (" .. type_str .. ")" }
+        elseif string.find(arg_str, "self") then
+            return { parse_var(arg_str) }
         else
-            return { arg_str.." (Placeholder)" }
+            return { parse_var(arg_str).." (Placeholder)" }
         end
     end
 end
@@ -527,7 +548,7 @@ local rust = {
         t("Foobar")
     }),
     s({
-        trig='rstemp',
+        trig='ftemp',
         dscr='Rust File Template',
         regTrig=false,
         priority=100,
@@ -539,9 +560,13 @@ local rust = {
     // Author(s):
     //     * Chase Timmins `chase.timmins@gmail.com`
 
-    // Structs
+    //-- Imports
 
-    // Main
+    //-- Functions
+
+    //-- Structs / Enums
+
+    //-- Main
     fn main() {
         // Do Stuff<>
     }
@@ -550,7 +575,7 @@ local rust = {
         i(0)
     })),
     s({
-        trig='rsfunc',
+        trig='func',
         dscr='Rust Function Template',
         regTrig=false,
         priority=100,
@@ -558,7 +583,7 @@ local rust = {
     }, {
         t({ "// Function: " }),
         rep(1),
-        t({ "", "//", "// Argument(s): ", '' }),
+        t({ "", "//", "// Argument(s):", '' }),
         f(rust_func, {2}, {}),
         t({ "", "//", "// Return(s):", "//     - ret (" }),
         rep(3),

@@ -35,7 +35,7 @@ nmap { "<leader>ps", ":PackerSync<CR>", "Remap-Packer_Sync" }
 
 -- Interactive Mode Remaps
 imap { ";;", "<Esc>", "Remap-Normal_Mode" }
-imap { '<C-s>', '<Esc>:w<CR>i', 'Remap-Quick_Save' }
+imap { '<C-s>', '<Esc>:w<CR>a', 'Remap-Quick_Save' }
 
 -- Visual Mode Remaps
 xmap { "<leader>p", "\"_dP" }

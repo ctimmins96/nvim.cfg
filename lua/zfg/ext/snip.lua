@@ -594,6 +594,64 @@ local rust = {
         t(") -> "),
         i(3, "i32"),
         t({ " {", "    // Do a thing", "}" })
+    }),
+    s({
+        trig='fnp',
+        dscr='Rust Public Function Template',
+        regTrig=false,
+        priority=100,
+        snippetType='snippet'
+    }, {
+        t({ "// Function: " }),
+        rep(1),
+        t({ "", "//", "// Argument(s):", '' }),
+        f(rust_func, {2}, {}),
+        t({ "", "//", "// Return(s):", "//     - ret (" }),
+        rep(3),
+        t({ ") -- Info goes here.", "pub fn " }),
+        i(1, "sum"),
+        t( "(" ),
+        i(2, "values: &[i32]"),
+        t(") -> "),
+        i(3, "i32"),
+        t({ " {", "    // Do a thing", "}" })
+    }),
+    s({
+        trig='dd',
+        dscr='Rust Derive Debug Shortcut',
+        regTrig=false,
+        priority=100,
+        snippetType='snippet'
+    }, {
+        t({ "#[derive(Debug)]"})
+    }),
+    s({
+        trig='iter',
+        dscr='Rust Iterator Template',
+        regTrig=false,
+        priority=100,
+        snippetType='snippet'
+    }, {
+        t({"impl Iterator for "}),
+        i(1, "Structure"),
+        t({ " {", "    type Item = " }),
+        i(2, "i32");
+        t({ ";", "", "    fn next(&mut self) -> Option<Self::Item> {",
+        "        // Do a thing", "    }", "}" }),
+    }),
+    s({
+        trig='iterl',
+        dscr='Rust Iterator Template with Lifetimes',
+        regTrig=false,
+        priority=100,
+        snippetType='snippet'
+    }, {
+        t({"impl<'a> Iterator for "}),
+        i(1, "Structure"),
+        t({ "<'a> {", "    type Item = " }),
+        i(2, "i32");
+        t({ ";", "", "    fn next(&mut self) -> Option<Self::Item> {",
+        "        // Do a thing", "    }", "}" }),
     })
 }
 

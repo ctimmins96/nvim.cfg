@@ -652,6 +652,26 @@ local rust = {
         i(2, "i32");
         t({ ";", "", "    fn next(&mut self) -> Option<Self::Item> {",
         "        // Do a thing", "    }", "}" }),
+    }),
+    s({
+        trig="ddcp",
+        dscr="Rust Derive shortcut",
+        regTrig=false,
+        priority=100,
+        snippetType='snippet'
+    }, {
+        t({ "#[derive(Debug,Clone,PartialEq)]"})
+    }),
+    s({
+        trig="test",
+        dscr="Rust Test function template",
+        regTrig=false,
+        priority=100,
+        snippetType='snippet'
+    }, {
+        t({ "#[test]", "fn " }),
+        i(1, "test_something"),
+        t({ "() {", "    // Break Stuff", "}" })
     })
 }
 

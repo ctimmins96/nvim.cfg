@@ -17,6 +17,8 @@ nmap { "<leader>we", "<C-w>=" }
 nmap { "<leader>wo", "<C-w>o" }
 
 nmap { "<C-S>", ":w<CR>:so<CR>", "Remap-Quick_Save_and_Source" }
+nmap { "<leader>vs", ":vsplit", "Remap-Vertical_Split" }
+nmap { "<leader>s", ":split", "Remap-Horizont_Split" }
 
 nmap { "<leader>y", "\"+y", "Remap-Sys_Clip_Yank" }
 nmap { "<leader>Y", "\"+Y", "Remap-Sys_Clip_Yank" }

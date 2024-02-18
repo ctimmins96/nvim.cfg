@@ -3,10 +3,12 @@
 # for examples
 
 # Exports
-export PATH="/home/chase/.local/share/bob/nvim-bin:$PATH"
+export PATH="/home/chase/.local/share/bob/nvim-bin:/home/chase/.modular/pkg/packages.modular.com_mojo/bin:$PATH"
+export MODULAR_HOME="/home/chase/.modular"
 export ALACRITTY_HOME="/mnt/c/Users/Chase/AppData/Roaming/alacritty"
 export SNIPPETS='~/.config/nvim/LuaSnip'
 export ZELLIJ_HOME="~/.config/zellij"
+export GITLAB_HOME="/mnt/e/gitlab"
 
 # If not running interactively, don't do anything
 case $- in
@@ -93,6 +95,9 @@ alias vim='nvim'
 alias e_alac="vim $ALACRITTY_HOME/alacritty.yml"
 alias e_bash="vim ~/.bashrc"
 alias e_zelj="vim ~/.config/zellij/config.kdl"
+alias e_tmux="vim ~/.tmux.conf"
+alias e_tmap="vim ~/.tmux/tmux.remaps.conf"
+alias cargotest="RUST_BACKTRACE=FULL cargo test"
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -130,6 +135,8 @@ source ~/.git-prompt.sh
 peng=""
 lmda="󰘧"
 sect=""
+arr1="󰝲"
+arr2="󱞩"
 
 FMT_BOLD="\[\e[1m\]"
 FMT_DIM="\[\e[2m\]"

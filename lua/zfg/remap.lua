@@ -2,6 +2,8 @@
 local nmap =  require('zfg.binds').nmap
 local imap =  require('zfg.binds').imap
 local xmap =  require('zfg.binds').xmap
+local feed =  require('zfg.binds').feed
+local ftyp =  require('zfg.binds').get_ftype
 
 -- Leader Remap
 vim.g.mapleader = " "
@@ -45,24 +47,42 @@ xmap { "J", ":m '>+1<CR>gv=gv" }
 xmap { "K", ":m '<-2<CR>gv=gv" }
 xmap { "<leader>y", "\"+y" }
 
--- Netrw Remaps
-local ap = require("zfg.binds").a
-ap.nvim_create_autocmd('filetype', {
-    pattern = 'netrw',
-    desc = 'Better Mappings for Netrw',
-    callback = function()
-        local bind = function(lhs, rhs, desc)
-            nmap { lhs, rhs, {remap = true, buffer = true, desc = "Netrw_Remap-"..desc} }
-        end
+local comments = {
+    rust = "//",
+    python = "#",
+    lua = "--",
+    c_sharp = "//"
+}
 
-        bind('fn', '%', "New_File")
-        bind('fr', 'R', "Remove_File")
-        bind('dn', 'd', "New_Directory")
-    end
-})
+xmap { "<leader>c", function()
+    local type = ftyp()
+    local cmnt = comments[type].." "
+
+    -- Feed necessary keys into nvim for bulk-Insert mode
+    local cmd = "I"..cmnt.."<Esc><Esc>"
+    feed(cmd)
+end, "Remap-Block_Visual_Comment"}
+
+-- -- Netrw Remaps
+-- local ap = require("zfg.binds").a
+-- ap.nvim_create_autocmd('filetype', {
+--     pattern = 'netrw',
+--     desc = 'Better Mappings for Netrw',
+--     callback = function()
+--         local bind = function(lhs, rhs, desc)
+--             nmap { lhs, rhs, {remap = true, buffer = true, desc = "Netrw_Remap-"..desc} }
+--         end
+-- 
+--         bind('fn', '%', "New_File")
+--         bind('fr', 'R', "Remove_File")
+--         bind('dn', 'd', "New_Directory")
+--     end
+-- })
 
 -- Testing Area
 local f = require("zfg.binds").func
 nmap { "<leader>rs", function() f.setreg("/", "<leader>") end }
 nmap { "<leader>rg", function() print(f.getreg("/")) end }
+
+
 

@@ -45,6 +45,15 @@ function Bind.msg(mes)
     vim.api.nvim_echo({{mes}},true, {})
 end
 
+function Bind.feed(keys, mode)
+    local key = vim.api.nvim_replace_termcodes(keys, true, false, true)
+    vim.api.nvim_feedkeys(key, mode or 't', false)
+end
+
+function Bind.get_ftype()
+    return vim.bo.filetype
+end
+
 Bind.func = vim.fn
 Bind.a = vim.api
 Bind.g = vim.g

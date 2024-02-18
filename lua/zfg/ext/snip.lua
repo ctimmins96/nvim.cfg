@@ -234,7 +234,7 @@ local function rust_func(args, _, user_args)
     local params = rust_arg_check(args[1][1])
     local ret = {}
     for _, val in ipairs(params) do
-        table.insert(ret, "//     - " .. val .. " -- Info goes here.")
+        table.insert(ret, "///     - " .. val .. " -- Info goes here.")
     end
     return ret
 end
@@ -581,11 +581,11 @@ local rust = {
         priority=100,
         snippetType='snippet'
     }, {
-        t({ "// Function: " }),
+        t({ "/// Function: " }),
         rep(1),
-        t({ "", "//", "// Argument(s):", '' }),
+        t({ "", "///", "/// Argument(s):", '' }),
         f(rust_func, {2}, {}),
-        t({ "", "//", "// Return(s):", "//     - ret (" }),
+        t({ "", "///", "/// Return(s):", "///     - ret (" }),
         rep(3),
         t({ ") -- Info goes here.", "fn " }),
         i(1, "sum"),
@@ -602,11 +602,11 @@ local rust = {
         priority=100,
         snippetType='snippet'
     }, {
-        t({ "// Function: " }),
+        t({ "/// Function: " }),
         rep(1),
-        t({ "", "//", "// Argument(s):", '' }),
+        t({ "", "///", "/// Argument(s):", '' }),
         f(rust_func, {2}, {}),
-        t({ "", "//", "// Return(s):", "//     - ret (" }),
+        t({ "", "///", "/// Return(s):", "///     - ret (" }),
         rep(3),
         t({ ") -- Info goes here.", "pub fn " }),
         i(1, "sum"),
@@ -672,6 +672,20 @@ local rust = {
         t({ "#[test]", "fn " }),
         i(1, "test_something"),
         t({ "() {", "    // Break Stuff", "}" })
+    }),
+    s({
+        trig="mod",
+        dscr="Rust Module Template",
+        regTrig=false,
+        priority=100,
+        snippetType='snippet'
+    }, {
+        t({ "// Module: " }),
+        i(1, "MyMod"),
+        t({ "", "// ", "// Description:", "//     " }),
+        i(2, "Brief Description"),
+        t({ "", "// ", "", "//-- Submodules", "", "//-- External Imports", "", "//-- Functions", "",
+        "//-- Structs / Implementations / Enums / Traits", "" })
     })
 }
 

@@ -58,6 +58,7 @@ Bind.func = vim.fn
 Bind.a = vim.api
 Bind.g = vim.g
 Bind.opt = vim.opt
+Bind.diag = vim.diagnostic
 
 return Bind
 

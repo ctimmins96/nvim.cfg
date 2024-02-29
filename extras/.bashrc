@@ -132,11 +132,8 @@ eval ``keychain --eval --agents ssh id_rsa
 
 source ~/.git-prompt.sh
 
-peng=""
-lmda="󰘧"
-sect=""
-arr1="󰝲"
-arr2="󱞩"
+lmda=">"
+sect="|"
 
 FMT_BOLD="\[\e[1m\]"
 FMT_DIM="\[\e[2m\]"
@@ -159,14 +156,6 @@ BG_GREEN="\[\e[42m\]"
 BG_YELLOW="\[\e[43m\]"
 BG_MAGENTA="\[\e[45m\]"
 
-#PS1="${BG_BLUE}${FG_GREEN}${FMT_BOLD} ${peng} \d ${FG_WHITE}\t ${FG_BLUE}"
-#PS1+='$(__git_ps1 "' # check if git branch exists
-#PS1+="${BG_MAGENTA}${sect} " # end FILES container / begin BRANCH container
-#PS1+="${FG_WHITE}${brch} %s ${FG_MAGENTA}" # print current git branch
-#PS1+='")'
-#PS1+="${BG_GREEN}${sect}${FG_BLUE} \w ${FMT_RESET}${FMT_BOLD}${FG_GREEN}${sect} "
-#PS1+="${FG_GREEN}${lmda}"
-#PS1+="${FMT_RESET}"
-PS1="${BG_BLUE}${FG_GREEN}${FMT_BOLD} ${peng} \d ${FG_WHITE}\t ${FG_BLUE}\$(__git_ps1 \"${BG_MAGENTA}${sect}${FG_WHITE}  %s ${FG_MAGENTA}\")${BG_GREEN}${sect}${FG_BLUE} \w ${FMT_RESET}${FMT_BOLD}${FG_GREEN}${sect} ${lmda} ${FMT_RESET}"
+PS1="${FG_GREEN}${FMT_BOLD} \u@\W ${FG_BLUE}\$(__git_ps1 \"${sect}${FG_RED} git(%s) \")${FMT_RESET}${FMT_BOLD}${FG_GREEN}${sect} ${lmda} ${FMT_RESET}"
 export PS1
 

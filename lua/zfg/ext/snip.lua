@@ -337,7 +337,7 @@ s({
         ### Main
 
         def main():
-        pass
+            pass
 
         if __name__ == '__main__':
             main()
@@ -357,14 +357,14 @@ s({
         [[
         ## <>
         class <>:
-        """<>
-        Properties:
-        None
+            """<>
+            Properties:
+                None
 
-        Methods:
-        None
-        """
-        pass
+            Methods:
+                None
+            """
+            pass
         ]],
         {
             i(1),
@@ -383,14 +383,14 @@ s({
         [[
         ## {}
         def {}({}) -> {}:
-        """{}
+            """{}
 
-        Argument(s):
+            Argument(s):
         {}
-        Return(s):
-        ret ({}) --
-        """
-        {}pass
+            Return(s):
+                -- ret ({}) --
+            """
+            {}pass
         ]],
         {
             i(1, 'funcName'),

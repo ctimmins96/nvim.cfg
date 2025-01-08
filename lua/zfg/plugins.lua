@@ -70,7 +70,6 @@ return require('packer').startup(function(use)
             vim.cmd('colorscheme fluoromachine')
         end
     }
-    use "steelsojka/pears.nvim"
     use "crispgm/nvim-tabline"
     use "norcalli/nvim-colorizer.lua"
     use "tpope/vim-fugitive"
@@ -87,7 +86,6 @@ return require('packer').startup(function(use)
         end,
     }
     use "nvim-tree/nvim-tree.lua"
-    use "lewis6991/gitsigns.nvim"
 
     -- Testing Plugins (on my local machine)
     -- use "/mnt/e/lua/fnr.nvim"

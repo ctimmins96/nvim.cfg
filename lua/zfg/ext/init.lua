@@ -1,4 +1,3 @@
-require('zfg.ext.pear')
 require('zfg.ext.colors')
 require('zfg.ext.tabline')
 require('zfg.ext.telescope')
@@ -9,6 +8,7 @@ require('zfg.ext.lualine')
 require('zfg.ext.snip')
 require("zfg.ext.nvim-tree")
 require('zfg.ext.lsp-zero')
+require('zfg.ext.markdown-preview')
 
 -- Sourcing lsp-zero
 -- Imports

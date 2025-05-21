@@ -10,26 +10,72 @@ return require('packer').startup(function(use)
 		requires = { { 'nvim-lua/plenary.nvim' },
                     { 'BurntSushi/ripgrep' } }
 	}
-	use ('nvim-treesitter/nvim-treesitter')
-	use ('ThePrimeagen/harpoon')
-	use ('ap/vim-css-color')
 	use {
-		'VonHeikemen/lsp-zero.nvim',
-		branch = 'v2.x',
-		requires = {
-			{'neovim/nvim-lspconfig'},
-			{'williamboman/mason.nvim'},
-            {'williamboman/mason-lspconfig.nvim'},
-            {'hrsh7th/cmp-buffer'},
-            {'hrsh7th/cmp-path'},
-			{'hrsh7th/cmp-nvim-lsp'},
-            {'saadparwaiz1/cmp_luasnip'},
-            {'hrsh7th/cmp-nvim-lua'},
-			{'L3MON4D3/LuaSnip'},
-            {'hrsh7th/cmp-cmdline'},
-            {'hrsh7th/nvim-cmp'},
-		}
-	}
+        'nvim-treesitter/nvim-treesitter',
+        run = ":TSUpdate",
+    }
+	use 'ThePrimeagen/harpoon'
+	use 'ap/vim-css-color'
+    use {
+        'neovim/nvim-lspconfig',
+        requires =
+        { 
+            { "hrsh7th/nvim-cmp" },
+            { "mason-org/mason.nvim" },
+            { "mason-org/mason-lspconfig.nvim" },
+            { "WhoIsSethDaniel/mason-tool-installer.nvim" },
+        },
+        config = function()
+            local builtin = require 'telescope.builtin'
+            local nmap = require 'zfg.binds'.nmap
+
+            vim.api.nvim_create_autocmd('LspAttach', {
+            group = vim.api.nvim_create_augroup('zfg-lsp-attach', {clear = true}),
+            callback = function(event)
+                -- Helper Functions
+                local map = function(keys, func, desc)
+                    nmap { keys, func, { buffer = event.buf, desc = "LSP: " .. desc }}
+                end
+
+                -- Maps
+                map("gd", builtin.lsp_definitions, "[G]oto [D]efinition")
+                map("gr", builtin.lsp_references, "[G]oto [R]eferences")
+                map("gI", builtin.lsp_implementations, "[G]oto [I]mplementations")
+                map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+
+                local client = vim.lsp.get_client_by_id(event.data.client_id)
+                if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+                    local highlight_augroup = vim.api.nvim_create_augroup('zfg-lsp-highlight', {clear = false})
+                    vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+                        buffer = event.buf,
+                        group = highlight_augroup,
+                        callback = vim.lsp.buf.document_highlight,
+                    })
+
+                    vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+                        buffer = event.buf,
+                        group = highlight_augroup,
+                        callback = vim.lsp.buf.clear_references,
+                    })
+
+                    vim.api.nvim_create_autocmd('LspDetach', {
+                        group = vim.api.nvim_create_augroup('zfg-lsp-detach', { clear = true }),
+                        callback = function(event2)
+                            vim.lsp.buf.clear_references()
+                            vim.api.nvim_clear_autocmds {group = 'zfg-lsp-highlight', buffer = event2.buf }
+                        end,
+                    })
+                end
+
+                if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayhint) then
+                    map('<leader>th', function()
+                        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
+                    end, '[T]oggle Inlay [H]ints')
+                end
+            end,
+        })
+        end
+    }
 	use 'mbbill/undotree'
     use ({
         'L3MON4D3/LuaSnip',
@@ -59,10 +105,6 @@ return require('packer').startup(function(use)
     }
 
     use 'christoomey/vim-tmux-navigator'
-    use ('Rigellute/shades-of-purple.vim')
-    --config = function()
-        --    vim.cmd('colorscheme shades_of_purple')
-        --end
     use 'maxmx03/fluoromachine.nvim'
     use {
         'sainnhe/everforest',

@@ -20,8 +20,8 @@ nmap { "<leader>we", "<C-w>=" }
 nmap { "<leader>wo", "<C-w>o" }
 
 nmap { "<C-S>", ":w<CR>:so<CR>", "Remap-Quick_Save_and_Source" }
-nmap { "<leader>vs", ":vsplit<CR>", "Remap-Vertical_Split" }
-nmap { "<leader>s", ":split<CR>", "Remap-Horizont_Split" }
+nmap { "<leader>vs", ":vsplit<CR>", "Remap-[V]ertical [S]plit" }
+nmap { "<leader>hs", ":split<CR>", "Remap-[H]orizontal [S]plit" }
 
 nmap { "<leader>y", "\"+y", "Remap-Sys_Clip_Yank" }
 nmap { "<leader>Y", "\"+Y", "Remap-Sys_Clip_Yank" }

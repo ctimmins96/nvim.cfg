@@ -1,3 +1,4 @@
+require("zfg.lsp")
 require("zfg.remap")
 require("zfg.plugins")
 require("zfg.options")

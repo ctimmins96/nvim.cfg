@@ -6,4 +6,5 @@ require("zfg.auto")
 require("zfg.binds")
 require("zfg.ext")
 require("zfg.globals")
+require("zfg.color")
 

@@ -106,12 +106,7 @@ return require('packer').startup(function(use)
 
     use 'christoomey/vim-tmux-navigator'
     use 'maxmx03/fluoromachine.nvim'
-    use {
-        'sainnhe/everforest',
-        config = function()
-            vim.cmd('colorscheme fluoromachine')
-        end
-    }
+    use 'sainnhe/everforest'
     use "crispgm/nvim-tabline"
     use "norcalli/nvim-colorizer.lua"
     use "tpope/vim-fugitive"
@@ -122,10 +117,6 @@ return require('packer').startup(function(use)
     use {
         "startup-nvim/startup.nvim",
         requires = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
-        config = function()
-            --require("startup").setup(require"config.startup_nvim")
-            require("startup").setup({theme="evil"})
-        end,
     }
     use "nvim-tree/nvim-tree.lua"
 

@@ -8,6 +8,6 @@ require('zfg.ext.undotree')
 require('zfg.ext.lualine')
 require('zfg.ext.snip')
 require("zfg.ext.nvim-tree")
--- require('zfg.ext.lsp-zero')
 require('zfg.ext.markdown-preview')
+require('zfg.ext.startup')
 

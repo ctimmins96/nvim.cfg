@@ -694,5 +694,20 @@ ls.add_snippets("rust", rust,
     key='rust'
 })
 
+-- - C#
+local csharp = {
+    s({
+        trig='fb',
+        dscr='Foobar'
+    }, {
+        t("Foobar")
+    }),
+}
+
+ls.add_snippets("cs", csharp,
+{
+    key='cs'
+})
+
 -- Snippet Testing Ground (lua)
 

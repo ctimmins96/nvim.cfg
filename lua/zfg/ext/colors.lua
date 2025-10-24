@@ -33,6 +33,5 @@ end
 
 -- Setup Colorizer
 require('colorizer').setup()
-ColorMe("fluoromachine")
 
 

@@ -8,6 +8,7 @@ local servers = {
     'jedi_language_server',
     'yamlls',
     'ts_ls',
+    'csharp_ls',
     'lua_ls'
 }
 lsp.preset('recommended')

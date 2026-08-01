@@ -8,11 +8,32 @@ return require('packer').startup(function(use)
 	use {
 		'nvim-telescope/telescope.nvim',
 		requires = { { 'nvim-lua/plenary.nvim' },
-                    { 'BurntSushi/ripgrep' } }
+                    { 'BurntSushi/ripgrep' },
+                    { 'sharkdp/fd' } }
 	}
 	use {
         'nvim-treesitter/nvim-treesitter',
+        branch = "main",
         run = ":TSUpdate",
+        config = function()
+            -- Make sure TreeSitter starts via autocmd
+            vim.api.nvim_create_autocmd('FileType', {
+                callback = function()
+                    pcall(vim.treesitter.start)
+                    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+                end,
+            })
+
+            -- Make sure the necessary parsers are installed
+            local ensure_installed = { 'python', 'haskell', 'rust', 'cpp', 'lua', 'query', 'html', 'javascript', 'vim', 'vimdoc', 'c_sharp' }
+            local already_installed = require('nvim-treesitter.config').get_installed()
+            local parser_to_install = vim.iter(ensure_installed)
+                :filter(function (parser)
+                    return not vim.tbl_contains(already_installed, parser)
+                end)
+                :totable()
+            require('nvim-treesitter').install(parser_to_install)
+        end,
     }
 	use 'ThePrimeagen/harpoon'
 	use 'ap/vim-css-color'
@@ -91,14 +112,14 @@ return require('packer').startup(function(use)
                 severity_sort = true,
                 float = { border = 'rounded', source = 'if_many' },
                 underline = { severity = vim.diagnostic.severity.ERROR },
-                signs = vim.g.have_nerd_font and {
+                signs = {
                     text = {
                         [vim.diagnostic.severity.ERROR] = '󰅚 ',
                         [vim.diagnostic.severity.WARN] = '󰀪 ',
                         [vim.diagnostic.severity.INFO] = '󰋽 ',
                         [vim.diagnostic.severity.HINT] = '󰌶 ',
                     },
-                } or {},
+                },
                 virtual_text = {
                     source = 'if_many',
                     spacing = 2,
@@ -115,18 +136,20 @@ return require('packer').startup(function(use)
             }
             local capabilities = require('cmp_nvim_lsp').default_capabilities()
             local servers = {
+                lua_ls = {
+                    settings = {
+                        Lua = {
+                            diagnostics = {
+                                globals = { 'vim' }
+                            }
+                        }
+                    },
+                },
                 clangd = {},
                 rust_analyzer = {},
                 csharp_ls = {},
                 jedi_language_server = {},
                 marksman = {},
-                lua_ls = {
-                    Lua = {
-                        diagnostics = {
-                            globals = { 'vim' }
-                        }
-                    }
-                },
             }
 
             local ensure_installed = vim.tbl_keys {servers or { }}
@@ -204,7 +227,10 @@ return require('packer').startup(function(use)
     use "nvim-tree/nvim-tree.lua"
 
     use {
-        'Saghen/blink.cmp',
+        'saghen/blink.cmp',
+        requires = {
+            'saghen/blink.lib'
+        },
         event = 'VimEnter',
         dependencies = {
             -- LuaSnip / Snippet engine

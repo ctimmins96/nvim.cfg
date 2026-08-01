@@ -18,5 +18,5 @@ nmap { "<leader>sm", builtin.keymaps, { desc = "Telescope-[S]earch Key[m]aps"}}
 nmap { "<leader>sd", builtin.diagnostics, { desc = "Telescope-[S]earch [D]iagnostics"}}
 nmap { "<leader>sp", function()
     builtin.grep_string({ search = vim.fn.input("Grep > ") });
-end, { desc = "Telescope-Grep_String" }}
+end, { desc = "Telescope-[S]earch [P]hrase" }}
 

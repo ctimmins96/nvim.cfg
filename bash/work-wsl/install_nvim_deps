@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+echo "Installing RipGrep"
+sudo apt install ripgrep >> /dev/null
+
+if [ $? == 0 ]; then
+    echo "RipGrep Installed."
+else
+    echo "Unable to install RipGrep."
+    exit 1
+fi
+
+echo "Installing Cargo"
+sudo apt install cargo >> /dev/null
+
+if [ $? == 0 ]; then
+    echo "Cargo Installed."
+else
+    echo "Unable to install Cargo."
+    exit 1
+fi
+
+# Use Cargo to install tree-sitter
+
+cargo -h >> /dev/null
+
+if [ $? == 0 ]; then
+    echo "Installed Cargo. Installing tree-sitter."
+    cargo install tree-sitter
+else
+    echo "Unable to use Cargo. Cannot install tree-sitter cli as a result"
+    exit 1
+fi
+

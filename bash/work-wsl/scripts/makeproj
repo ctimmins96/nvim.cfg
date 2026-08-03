@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+echo "Creating Project Directory $1"
+
+mydir=$1
+mkdir $mydir
+
+pushd $mydir
+mkdir repo
+mkdir docs
+mkdir tmp
+mkdir staging

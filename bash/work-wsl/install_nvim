@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+nvim --version >> /dev/null
+if [ $? == 0 ]; then
+    echo "Neovim already installed"
+else
+    if [ ! -d ~/nvim_src ]; then
+    	echo "Making Neovim Installation Directory"
+    	pushd ~
+    	mkdir nvim_src
+    	cd nvim_src
+    else
+	    pushd ~/nvim_src
+    fi
+
+    git status >> /dev/null
+    
+    if [ $? != 0 ]; then
+    	# Pull Neovim repo
+    	echo "Pulling Neovim Source Code"
+    	git clone https://github.com/neovim/neovim.git .
+    	git checkout release-0.12
+    fi
+
+    echo "Checking for build utilities..."
+    make --version >> /dev/null
+    if [ $? != 0 ]; then
+	    echo "Installing build essentials..."
+	    sudo apt install build-essential
+    fi
+
+    cmake --version >> /dev/null
+    if [ $? != 0 ]; then
+	    echo "Installing cmake..."
+	    sudo apt install -y cmake
+    fi
+
+    # Install Neovim
+    echo "Building Neovim Release"
+    make CMAKE_BUILD_TYPE=RelWithDebInfo
+    sudo make install
+    
+    popd
+fi

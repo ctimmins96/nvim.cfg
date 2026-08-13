@@ -1,25 +1,22 @@
 #!/usr/bin/env bash
 
-# Check for Neovim
-nvim --version > /dev/null
-if [ $? == 0 ] then
-    echo "Neovim already installed"
-else
-    pushd ~
-    mkdir nvim_src
-    cd nvim_src
+# Setup Git Config stuff
+./configure_git
+echo ""
+echo "-- Git Configuration Complete! --"
 
-    # Install Neovim
-    git clone https://github.com/neovim/neovim.git .
-    git checkout release-0.12
-    make CMAKE_BUILD_TYPE=RelWithDebInfo
-    sudo make install
-    
-    # Move the executable to $HOME/.local/bin
-    
-    # 
-    popd
-fi
+# Check for Neovim
+./install_nvim
+echo ""
+echo "-- Neovim Installation Complete! --"
 
 # Check Neovim Dependencies
+./install_nvim_deps
+echo ""
+echo "-- Neovim Dependency Installation Complete! --"
+
+# Update Bash files
+./update_bash_files
+echo ""
+echo "-- Custom Bash File Transfer Complete! --"
 

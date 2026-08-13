@@ -102,9 +102,6 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-. "$HOME/.cargo/env"
-
-eval ``keychain --eval --agents ssh id_ed25519
 
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519

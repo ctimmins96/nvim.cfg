@@ -1,34 +1,71 @@
 #!/usr/bin/env bash
 
-echo "Installing RipGrep"
-sudo apt install ripgrep >> /dev/null
+# Checking Neovim Dependencies
+# -- Packer
+echo "Checking for Neovim Dependency: Packer..."
 
-if [ $? == 0 ]; then
-    echo "RipGrep Installed."
+if [ ! -d ~/.local/share/nvim/site/pack/packer/start/packer.nvim ]; then
+    git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+        ~/.local/share/nvim/site/pack/packer/start/packer.nvim >> /dev/null
+    
+    if [ $? == 0 ]; then
+        echo "Packer successfully pulled."
+    else
+        echo "There was an issue pulling Packer. Check your network conneciton or SSL Proxy."
+    fi
 else
-    echo "Unable to install RipGrep."
-    exit 1
+    echo "Packer Already installed."
 fi
 
-echo "Installing Cargo"
-sudo apt install cargo >> /dev/null
+# -- Ripgrep
+echo "Checking for Neovim Dependency: Ripgrep..."
+rg --help >> /dev/null
 
-if [ $? == 0 ]; then
-    echo "Cargo Installed."
+if [ $? != 0 ]; then
+    echo "Installing Ripgrep"
+    sudo apt install -y ripgrep
+
+    if [ $? == 0 ]; then
+        echo "Ripgrep Installed."
+    else
+        echo "Unable to install Ripgrep."
+    fi
 else
-    echo "Unable to install Cargo."
-    exit 1
+    echo "Ripgrep already installed."
+fi
+
+echo "Checking for Neovim Dependency: Cargo..."
+cargo --version >> /dev/null
+
+if [ $? != 0 ] then
+    echo "Installing Cargo"
+    sudo apt install -y cargo
+
+    if [ $? == 0 ]; then
+        echo "Cargo Installed."
+    else
+        echo "Unable to install Cargo."
+        exit 1
+    fi
+else
+    echo "Cargo already installed"
 fi
 
 # Use Cargo to install tree-sitter
-
-cargo -h >> /dev/null
+echo "Checking for Neovim Dependency: tree-sitter..."
+tree-sitter >> /dev/null
 
 if [ $? == 0 ]; then
-    echo "Installed Cargo. Installing tree-sitter."
+    echo "Installing tree-sitter using cargo."
     cargo install tree-sitter
+
+    if [ $? == 0 ]; then
+        echo "Tree-Sitter Installed."
+    else
+        echo "Unable to install Tree-Sitter."
+        exit 1
+    fi
 else
-    echo "Unable to use Cargo. Cannot install tree-sitter cli as a result"
-    exit 1
+    echo "Tree-Sitter already installed"
 fi
 

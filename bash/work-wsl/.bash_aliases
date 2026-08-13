@@ -23,7 +23,8 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 # QoL Aliases
 alias refenv='source ~/.bashrc'
-alias vim='~/nvim_src/build/bin/nvim'
+# alias vim='~/nvim_src/build/bin/nvim'
+alias vim='nvim'
 
 # Editting Aliases
 alias e_alac="vim $ALACRITTY_HOME/alacritty.yml"

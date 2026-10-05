@@ -33,6 +33,7 @@ end
 
 -- Setup Colorizer
 require('colorizer').setup()
+
 ColorMe("everforest")
 
 

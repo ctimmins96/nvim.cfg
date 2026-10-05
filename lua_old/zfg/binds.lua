@@ -5,11 +5,7 @@ local function tbl_inject(opts)
         local s_opt = opts or ""
         opts = { desc = "Custom Mapping (zfg): "..s_opt, silent = true }
     end
-    if opts.desc then
-        opts.desc = "Custom Mapping: "..opts.desc
-    else
-        opts.desc = "Custom Mapping (zfg)"
-    end
+
     return opts
 end
 

@@ -1,7 +1,6 @@
 -- Bulk Imports
 local ls = require("luasnip")
 
-
 -- Local Variables
 local ex_op = {
     active = { hl_group = "colorizer_mb_808080" },
@@ -41,10 +40,7 @@ local sn = ls.snippet_node
 local t = ls.text_node
 local i = ls.insert_node
 local f = ls.function_node
-local c = ls.choice_node
 local d = ls.dynamic_node
-local r = ls.restore_node
-local rep = require('luasnip.extras').rep
 local fmt = require('luasnip.extras.fmt').fmta
 local fmt2 = require('luasnip.extras.fmt').fmt
 
@@ -408,113 +404,6 @@ s({
 ls.add_snippets("python", python,
 {
     key = "python",
-})
-
--- - Haskell
-local haskell = {
-    s({
-        trig='fb',
-        dscr='Foobar',
-        regtrig=false
-    }, {
-        t("Foobar")
-    }),
-    s({
-        trig='hstemp',
-        dscr='Haskell File Template',
-        regTrig=false,
-        priority=100,
-        snippetType='snippet'
-    }, fmt2(
-    [[
-    -- {}
-    --
-    -- Author(s):
-    --     * Chase Timmins <chase.timmins@gmail.com>
-    -- 
-    -- Description:
-    --     {}
-    module Main
-    where
-
-    -- Imports
-
-    -- Main
-    main = do
-        putStrLn "Hello World!"{}
-    ]], {
-        i(1, "ScriptName"),
-        i(2, "I'm doing jank stuff."),
-        i(0)
-    }
-    )),
-    s({
-        trig='hsmod',
-        dscr='Haskell Module Template',
-        regTrig=false,
-        priority=100,
-        snippetType='snippet'
-    }, fmt2(
-    [[
-    -- {}
-    --
-    -- Author(s):
-    --     * Chase Timmins <chase.timmins@gmail.com>
-    -- 
-    -- Description:
-    --     {}
-    -- 
-    -- Functions:
-    --     * foo
-    --     * bar
-    module {} (
-        foo,
-        bar
-    ) where
-    
-    -- foo (Int) -> (Int)
-    foo :: Int -> Int
-    foo x = x * 2
-
-    -- bar (Int) -> (Int)
-    bar :: Int -> Int
-    bar x = x - 3
-    ]], {
-        i(1, "MyMod"),
-        i(2, "Brief Description"),
-        rep(1)
-    }
-    )),
-    s({
-        trig='hsfunc',
-        dscr='Haskell Base Function Template',
-        regTrig=false,
-        priority=100,
-        snippetType='snippet'
-    }, fmt2(
-    [[
-    -- Function: {}
-    --
-    -- Arguments: {}
-    -- Returns:   {}
-    {} :: {} -> {}
-    {} {} = {}
-    ]], {
-        i(1, "func_name"),
-        i(2, "x:Int"),
-        i(3, "Int"),
-        rep(1),
-        f(hs_func, {2}, { user_args = {{declaration = true }}}),
-        rep(3),
-        rep(1),
-        f(hs_func, {2}, { user_args = {{ declaration = false }}}),
-        i(0)
-    }
-    ))
-}
-
-ls.add_snippets("haskell", haskell, {
-    key='haskell',
 })
 
 -- - Markdown

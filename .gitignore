@@ -1,2 +1,4 @@
 plugin/*
 test/*
+
+nvim-pack-lock.json

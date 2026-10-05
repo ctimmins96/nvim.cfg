@@ -60,14 +60,11 @@ return require('packer').startup(function(use)
 
     use 'christoomey/vim-tmux-navigator'
     use ('Rigellute/shades-of-purple.vim')
-    --config = function()
-        --    vim.cmd('colorscheme shades_of_purple')
-        --end
     use 'maxmx03/fluoromachine.nvim'
     use {
         'sainnhe/everforest',
         config = function()
-            vim.cmd('colorscheme fluoromachine')
+            vim.cmd('colorscheme everforest')
         end
     }
     use "steelsojka/pears.nvim"

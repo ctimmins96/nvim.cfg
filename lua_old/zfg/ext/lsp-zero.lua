@@ -7,7 +7,6 @@ local servers = {
     'marksman',
     'jedi_language_server',
     'yamlls',
-    'tsserver',
     'bashls',
     'lua_ls'
 }

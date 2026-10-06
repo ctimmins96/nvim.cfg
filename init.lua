@@ -800,7 +800,7 @@ do
     -- But for many setups, the LSP (`rust_analyzer`) will work just fine
     -- rust_analyzer = {},
 
-    stylua = {}, -- Used to format Lua code
+    csharp_ls = {},
 
     -- Special Lua Config, as recommended by neovim help docs
     lua_ls = {

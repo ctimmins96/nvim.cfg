@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# Setup Git Config stuff
+./configure_git
+echo ""
+echo "-- Git Configuration Complete! --"
+
+# Check for Neovim
+./install_nvim
+echo ""
+echo "-- Neovim Installation Complete! --"
+
+# Check Neovim Dependencies
+./install_nvim_deps
+echo ""
+echo "-- Neovim Dependency Installation Complete! --"
+
+# Update Bash files
+./update_bash_files
+echo ""
+echo "-- Custom Bash File Transfer Complete! --"
+

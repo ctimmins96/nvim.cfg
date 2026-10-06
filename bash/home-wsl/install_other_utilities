@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# Checking for Dotnet (building C# applications)
+echo "Checking Utilities: dotnet"
+dotnet --version >> /dev/null
+
+if [ $? != 0 ]; then
+	sudo apt install -y dotnet-sdk-10.0
+
+	if [ $? != 0 ]; then
+		echo "Unable to install dotnet-sdk!"
+		exit 1
+	fi
+
+	echo "Dotnet installed successfully!"
+else
+	echo "Dotnet is already installed."
+fi
+

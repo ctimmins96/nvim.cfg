@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+# .bashrc and aliases
+echo "Copying .bashrc..."
+cp .bashrc ~/.bashrc
+
+echo "Copying .bash_aliases..."
+cp .bash_aliases ~/.bash_aliases
+
+echo "Refreshing environment."
+source ~/.bashrc
+
+# .scripts
+echo "Checking scripts..."
+
+if [ ! -d ~/.scripts ]; then
+    echo "Creating scripts directory"
+    mkdir ~/.scripts
+fi
+
+for file in ./scripts/*; do
+    echo "Processing $file..."
+    cp $file ~/.scripts/$(basename "$file")
+done
+

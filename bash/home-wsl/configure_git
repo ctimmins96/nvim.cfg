@@ -10,7 +10,6 @@ git config --global push.autosetupremote true
 git config --global http.sslbackend "schannel"
 
 echo ""
-
 echo "Git Config set to the following:"
 
 git config --global -l

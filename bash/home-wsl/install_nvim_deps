@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+# Checking Neovim Dependencies
+
+# -- Ripgrep
+echo "Checking for Neovim Dependency: Ripgrep..."
+rg --help >> /dev/null
+
+if [ $? != 0 ]; then
+    echo "Installing Ripgrep"
+    sudo apt install -y ripgrep
+
+    if [ $? == 0 ]; then
+        echo "Ripgrep Installed."
+    else
+        echo "Unable to install Ripgrep."
+    fi
+else
+    echo "Ripgrep already installed."
+fi
+
+echo "Checking for Neovim Dependency: Cargo..."
+cargo --version >> /dev/null
+
+if [ $? != 0 ]; then
+    echo "Installing Cargo"
+    sudo apt install -y cargo
+
+    if [ $? == 0 ]; then
+        echo "Cargo Installed."
+    else
+        echo "Unable to install Cargo."
+        exit 1
+    fi
+else
+    echo "Cargo already installed"
+fi
+
+# Use Cargo to install tree-sitter
+echo "Checking for Neovim Dependency: tree-sitter..."
+tree-sitter >> /dev/null
+
+if [ $? == 0 ]; then
+    echo "Installing tree-sitter using cargo."
+    cargo install tree-sitter >> /dev/null
+
+    if [ $? == 0 ]; then
+        echo "Tree-Sitter Installed."
+    else
+        echo "Unable to install Tree-Sitter."
+        exit 1
+    fi
+else
+    echo "Tree-Sitter already installed"
+fi
+

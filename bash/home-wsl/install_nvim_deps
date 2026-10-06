@@ -42,7 +42,7 @@ tree-sitter >> /dev/null
 
 if [ $? == 0 ]; then
     echo "Installing tree-sitter using cargo."
-    cargo install tree-sitter >> /dev/null
+    cargo install tree-sitter-cli >> /dev/null
 
     if [ $? == 0 ]; then
         echo "Tree-Sitter Installed."

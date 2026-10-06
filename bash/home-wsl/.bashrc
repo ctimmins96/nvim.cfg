@@ -85,10 +85,10 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-. "$HOME/.cargo/env"
 
-eval ``keychain --eval --agents ssh id_rsa
-[ -f "/home/chase/.ghcup/env" ] && source "/home/chase/.ghcup/env" # ghcup-env
+# eval ``keychain --eval --agents ssh id_rsa
+eval `ssh-agent -s`
+ssh-add ~/.ssh/id_rsa
 
 ## Terminal Customization
 #
@@ -96,8 +96,6 @@ eval ``keychain --eval --agents ssh id_rsa
 # - Date / Time
 # - Path
 # - Git information
-
-source ~/.git-prompt.sh
 
 lmda=">"
 sect="|"

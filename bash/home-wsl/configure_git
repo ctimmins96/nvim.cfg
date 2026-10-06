@@ -7,7 +7,6 @@ git config --global user.name "Chase Timmins"
 git config --global core.autocrlf false
 git config --global init.defaultbranch "main"
 git config --global push.autosetupremote true
-git config --global http.sslbackend "schannel"
 
 echo ""
 echo "Git Config set to the following:"

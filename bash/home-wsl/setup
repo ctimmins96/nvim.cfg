@@ -20,3 +20,7 @@ echo "-- Neovim Dependency Installation Complete! --"
 echo ""
 echo "-- Custom Bash File Transfer Complete! --"
 
+./install_other_utilities
+echo ""
+echo "-- Other Utilties Installation Complete! --"
+

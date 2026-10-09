@@ -1,6 +1,6 @@
 -- Bulk Imports
 local ls = require("luasnip")
-local logger = require('custom.plugins.logger').new('snippets')
+local logger = require('zfg_logger').new('Snippets')
 
 -- Local Variables
 local ex_op = {
@@ -351,7 +351,7 @@ ls.add_snippets("python", python,
 })
 
 -- - Markdown
-logger:info("Setting Markdown snippets.")
+logger:info("Setting Markdown snippets")
 local markdown = {
     s({
         trig='link',
@@ -374,7 +374,7 @@ ls.add_snippets("markdown", markdown,
 })
 
 -- - Rust
-logger:info("Setting Rust snippets.")
+logger:info("Setting Rust snippets")
 local rust = {
     s({
         trig='fb',

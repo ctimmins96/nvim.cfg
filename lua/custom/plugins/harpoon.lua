@@ -1,9 +1,13 @@
+-- Imports
+local helper = require('zfg_logger').new('Harpoon')
+
+-- Functions
 local function gh(repo) return 'https://github.com/' .. repo end
 
-local log = require('custom.plugins.logger')
-local logger = log.new('harpoon')
-
+-- Plugin Setup
 vim.pack.add { gh("theprimeagen/harpoon") }
+
+helper:debg('Invoking Setup...')
 
 require("harpoon").setup({
     save_on_toggle = true,
@@ -11,11 +15,10 @@ require("harpoon").setup({
     tabline = false,
 })
 
--- local nmap = require("zfg.binds").nmap
 local mark = require("harpoon.mark")
 local ui = require("harpoon.ui")
 
--- logger:info("Setting Keymaps.")
+helper:debg('Setting Keymaps...')
 
 vim.keymap.set('n', '<leader>a', mark.add_file, { desc = 'Harpoon - Add File' })
 vim.keymap.set('n', '<C-e>', ui.toggle_quick_menu, { desc = 'Harpoon - Toggle Quick-Menu'})
@@ -23,7 +26,6 @@ vim.keymap.set('n', '<C-e>', ui.toggle_quick_menu, { desc = 'Harpoon - Toggle Qu
 for i = 1,10 do
     vim.keymap.set('n', "<leader>"..(i%10), function() ui.nav_file(i) end, { desc = 'Harpoon - Goto File '.. i })
 end
-
 
 -- Dummy Configuration
 local get_marks = function()
@@ -47,5 +49,5 @@ end
 
 vim.keymap.set('n', "<leader>hh", function() get_marks() end)
 
--- logger:info("Harpoon Initialized.")
+helper:info('Initialized!')
 

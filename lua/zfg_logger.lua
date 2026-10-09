@@ -1,9 +1,10 @@
--- alias
-local echo = vim.api.nvim_echo
+-- Imports
+local fidget = require('fidget')
 
--- vim.api.nvim_echo({ { "[zfg.custom] info: Harpoon Loaded!", 'MoreMsg' } }, true, {})
+-- Function Aliases
+local echo = fidget.notify
 
--- A lot of this comes from the nvim-treesitter repo
+-- Local Variables
 local sev_to_hl = {
 	trace = 'DiagnosticHint',
 	debug = 'Normal',
@@ -20,20 +21,20 @@ local function mkpfx(ctx)
 	return ctx and string.format('[zfg.logger/%s]', ctx) or '[zfg.logger]'
 end
 
----@class ZfgLogModule
+---@class ZfgFidgetHelperModule
 ---@field trace fun(fmt: string, ...:any)
 ---@field debg fun(fmt: string, ...:any)
 ---@field info fun(fmt: string, ...:any)
 ---@field warn fun(fmt: string, ...:any)
 ---@field errr fun(fmt: string, ...:any)
-local M = {}
+local R = {}
 
 local Logger = {}
-M.Logger = Logger
+R.Logger = Logger
 
 ---@param ctx any
 ---@return Logger
-function M.new(ctx)
+function R.new(ctx)
 	return setmetatable({ ctx = ctx }, { __index = Logger })
 end
 
@@ -54,7 +55,7 @@ end
 function Logger:info(m, ...)
 	local m1 = m:format(...)
 	messages[#messages+1] = { 'info', self.ctx, m1 }
-	echo({ { mkpfx(self.ctx) .. ' info: ' .. m1, sev_to_hl.info } }, true, {})
+	echo(mkpfx(self.ctx) .. ' info: ' .. m1)
 end
 
 ---@param m string
@@ -62,7 +63,7 @@ end
 function Logger:warn(m, ...)
 	local m1 = m:format(...)
 	messages[#messages+1] = { 'warn', self.ctx, m1 }
-	echo({ { mkpfx(self.ctx) .. ' warn: ' .. m1, sev_to_hl.warn } }, true, {})
+	echo(mkpfx(self.ctx) .. ' warn: ' .. m1)
 end
 
 ---@param m string
@@ -70,12 +71,12 @@ end
 function Logger:errr(m, ...)
 	local m1 = m:format(...)
 	messages[#messages+1] = { 'errr', self.ctx, m1 }
-	echo({ { mkpfx(self.ctx) .. ' errr: ' .. m1, sev_to_hl.error } }, true, {})
+	echo(mkpfx(self.ctx) .. ' errr: ' .. m1)
 end
 
-local noctx_logger = M.new()
+local noctx_logger = R.new()
 
-setmetatable(M, {
+setmetatable(R, {
 	__index = function(t, k)
 		t[k] = function(...)
 			return noctx_logger[k](noctx_logger, ...)
@@ -84,15 +85,15 @@ setmetatable(M, {
 	end,
 })
 
-function M.show()
+function R.show()
 	for _, l in ipairs(messages) do
 		local sev, ctx, msg = l[1], l[2], l[3]
 		local hl = sev_to_hl[sev]
 		local text = ctx and string.format('%s(%s}: %s', sev, ctx, msg)
 			or string.format('%s: %s', sev, msg)
-		echo({ { text, hl } }, false, {})
+		vim.api.nvim_echo({ { text, hl } }, false, {})
 	end
 end
 
-return M
+return R
 

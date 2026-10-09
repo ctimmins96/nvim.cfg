@@ -1091,6 +1091,7 @@ do
   -- require 'custom.plugins.git'
 
   require 'custom.plugins.harpoon'
+  require 'custom.plugins.luasnip'
 
 end
 
